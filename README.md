@@ -104,3 +104,50 @@ Create a GKE cluster:
 	k apply -f standalone-envoy-manifest.yaml -n apigee
 
 ---
+
+#### Create app
+
+...developer
+... API Product HTTPBin
+
+Use consumerKey to create an Client App in keycloak
+
+### Create API Product
+
+HTTPBin
+
+quota: 10 / min
+
+httpbin.org
+
+/httpbin/*
+GET
+
+	curl -H "Authorization: Bearer ${TOKEN}" http://35.195.76.155/httpbin/headers -H "Host: httpbin.org" -v
+
+#### Apigee API
+
+	APIGEE_TOKEN=$(gcloud auth print-access-token);echo $APIGEE_TOKEN
+
+Create a developer:
+
+	curl --fail --silent -X POST \
+	-H "Authorization: Bearer $APIGEE_TOKEN" -H "Content-Type:application/json" \
+	--data " {\"email\": \"john.doe@example.com\",\"firstName\": \"John\",\"lastName\": \"Doe\",\"userName\": \"jdoe\"}" \
+	https://apigee.googleapis.com/v1/organizations/"$APIGEE_X_ORG"/developers
+
+Create an App:
+
+	curl --fail --silent -X POST \
+	-H "Authorization: Bearer $APIGEE_TOKEN" -H "Content-Type:application/json" \
+	--data " {\"name\": \"httpbin-demo\"}" \
+	https://apigee.googleapis.com/v1/organizations/"$APIGEE_X_ORG"/developers/john.doe@example.com/apps
+
+Set client app keys (credentials):
+
+	curl --fail --silent -X POST \
+	-H "Authorization: Bearer $APIGEE_TOKEN" -H "Content-Type:application/json" \
+	--data "{ \"consumerKey\": \"x-key\", \"consumerSecret\": \"x-secret\" }" \
+	https://apigee.googleapis.com/v1/organizations/"$APIGEE_X_ORG"/developers/john.doe@example.com/apps/httpbin-demo/keys/create
+
+
