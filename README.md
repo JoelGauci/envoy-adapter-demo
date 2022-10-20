@@ -19,9 +19,9 @@ create a key and download the json file
 
 ---
 
-	export ORG=your-apigeex-org
-	export ENV=your-apigeex-env
-	export RUNTIME=https://your-apigeex-hostname
+	export ORG=<your-apigeex-org>
+	export ENV=<your-apigeex-env>
+	export RUNTIME=https://<your-apigeex-hostname>
 
 ## Apigee hybrid only
 
@@ -37,7 +37,8 @@ cd apigee-remote-service-cli/
 
 ---
 
-	./apigee-remote-service-cli provision --organization $ORG \
+	./apigee-remote-service-cli provision \
+	--organization $ORG \
 	--environment $ENV \
      	--runtime $RUNTIME \
 	--analytics-sa $AX_SERVICE_ACCOUNT \
@@ -53,8 +54,6 @@ cd ../../demos/common/
 
 ---
 
-mv config.yaml config.backup
-
 mv config-jg.yaml config.yaml
 
 ---
@@ -68,12 +67,12 @@ auth:
     api_key_claim: apiKey
 ```
 
-+ modify the token endpoint for the 'jwt_provider_key' - example:
++ modify the token endpoint for the 'jwt_provider_key' - example (it MUST be https not http):
 
 ```
 auth:
     api_key_claim: apiKey
-    jwt_provider_key: http://34.140.148.116:8080/auth/realms/demo-ea/protocol/openid-connect/token
+    jwt_provider_key: http://<your-idp-hostname-and-port>/auth/realms/demo-ea/protocol/openid-connect/token
 ```
 
 Doc:
@@ -109,7 +108,7 @@ Create a GKE cluster:
 
 ### Clients
 
-Create a new client, set the client Id (name of the client App)
+Create a new client, set the client Id (name of the client App: dummy-client_id-1234567890)
 
 Set properties, as shown on the following picture:
 
@@ -176,7 +175,15 @@ Set client app keys (credentials):
 
 	curl --fail --silent -X POST \
 	-H "Authorization: Bearer $APIGEE_TOKEN" -H "Content-Type:application/json" \
-	--data "{ \"consumerKey\": \"x-key\", \"consumerSecret\": \"x-secret\" }" \
+	--data "{ \"consumerKey\": \"dummy-client_id-1234567890\", \"consumerSecret\": \"x-secret\" }" \
 	https://apigee.googleapis.com/v1/organizations/"$APIGEE_X_ORG"/developers/john.doe@example.com/apps/httpbin-demo/keys/create
+
+Finaly link the client app credentials and the HTTPBin API Product:
+
+	curl --fail --silent -X POST \
+	-H "Authorization: Bearer $APIGEE_TOKEN" -H "Content-Type:application/json" \
+	--data "{ \"apiProducts\": [\"HTTPBin\"] }" \
+	https://apigee.googleapis.com/v1/organizations/"$APIGEE_X_ORG"/developers/john.doe@example.com/apps/httpbin-demo/keys/dummy-client_id-1234567890
+
 
 
