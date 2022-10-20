@@ -119,25 +119,40 @@ Once the client app has been created you can get the client secret:
 
 ![image](./pictures/credentials.png) 
 
+Copy/paste client_id and client_secret for later use
+
 Set the audience with value remote-service-client:
 
-![image](./pictures/audience.jpg)
-
-
-Copy/paste client_id and client_secret for later use
+![image](./pictures/audience.png)
 
 ### Create API Product in Apigee
 
-HTTPBin
+Name: HTTPBin
 
-quota: 10 / min
+Quota: 10 / min
 
-httpbin.org
+Remote Service:
 
-/httpbin/*
-GET
+	httpbin.org
 
-	curl -H "Authorization: Bearer ${TOKEN}" http://35.195.76.155/httpbin/headers -H "Host: httpbin.org" -v
+Path:
+	/httpbin/*
+
+Method:
+	GET
+	
+## Get a JWT token first, from the IdP (http protocol for test but it MUST be  https):
+
+	curl --location --request POST 'http://<your-idp-hostname>/auth/realms/demo-ea/protocol/openid-connect/token' \
+	--header 'Content-Type: application/x-www-form-urlencoded' \
+	--data-urlencode 'client_id=<your-client-id>' \
+	--data-urlencode 'client_secret=<your-client-secret>' \
+	--data-urlencode 'scope=email' \
+	--data-urlencode 'grant_type=client_credentials'
+
+## Make a call on the envoy gateway:
+
+	curl -H "Authorization: Bearer ${TOKEN}" http://<envoy-gateway>/httpbin/headers -H "Host: httpbin.org" -v
 
 #### Apigee API
 
