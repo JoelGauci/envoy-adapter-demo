@@ -107,6 +107,23 @@ Create a GKE cluster:
 
 ## Create Client App in Idp
 
+### Clients
+
+Create a new client, set the client Id (name of the client App)
+
+Set properties, as shown on the following picture:
+
+![image](./pictures/client.png)
+
+Once the client app has been created you can get the client secret:
+
+![image](./pictures/credentials.png) 
+
+Set the audience with value remote-service-client:
+
+![image](./pictures/audience.jpg)
+
+
 Copy/paste client_id and client_secret for later use
 
 ### Create API Product in Apigee
