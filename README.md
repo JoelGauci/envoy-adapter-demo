@@ -105,14 +105,11 @@ Create a GKE cluster:
 
 ---
 
-#### Create app
+## Create Client App in Idp
 
-...developer
-... API Product HTTPBin
+Copy/paste client_id and client_secret for later use
 
-Use consumerKey to create an Client App in keycloak
-
-### Create API Product
+### Create API Product in Apigee
 
 HTTPBin
 
