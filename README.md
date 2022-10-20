@@ -1,4 +1,4 @@
-# envoy-adapter-demo
+# envoy-adapter-demo - use your own Identity Provider (IdP)
 
 ## Notes
 
