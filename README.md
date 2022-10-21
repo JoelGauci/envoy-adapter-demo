@@ -25,11 +25,7 @@ create a key and download the json file
 
 ## Apigee hybrid only
 
-	export NAMESPACE=apigee 
-
----
-
-	TOKEN=$(gcloud auth print-access-token);echo $TOKEN
+	export TOKEN=$(gcloud auth print-access-token);echo $TOKEN
 
 ---
 
