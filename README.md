@@ -1,5 +1,9 @@
 # envoy-adapter-demo - use your own Identity Provider (IdP)
 
+## Sequence diagram
+
+![image](./pictures/sequence-ea-use-your-own-idp-v1.png)
+
 ## Notes
 
 cd ../envoy-adapter
